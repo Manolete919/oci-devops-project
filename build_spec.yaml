@@ -38,3 +38,12 @@ outputArtifacts:
   - name: oci_devops_project_image
     type: DOCKER_IMAGE
     location: oci-devops-project:latest
+  - name: deployment_yaml
+    type: BINARY
+    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-deployment.yaml
+  - name: service_yaml
+    type: BINARY
+    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-service.yaml
+  - name: ingress_yaml
+    type: BINARY
+    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-ingress.yaml
