@@ -1,6 +1,6 @@
 ## Test Locally
 
 ```bash
-http://localhost:8090/hello/Carlos
+http://localhost:8090/greetings/actions/hello/Carlos
 ```
 
