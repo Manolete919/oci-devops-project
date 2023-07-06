@@ -19,6 +19,7 @@ steps:
       echo $APPLICATION_VERSION
       cd ${OCI_PRIMARY_SOURCE_DIR}
       echo Inside of the working directory OCI_PRIMARY_SOURCE_DIR - Working in `pwd`
+      echo 'All the files in this directory `ls -l`'
     onFailure:
       - type: Command
         command: |
