@@ -29,7 +29,7 @@ steps:
     name: "Generate the image"
     timeoutInSeconds: 60
     command: |
-      cd ${OCI_PRIMARY_SOURCE_DIR}/oci-devops-project
+      cd ${OCI_PRIMARY_SOURCE_DIR}/
       echo Running docker update - Working in `pwd`
       docker build  --tag oci-devops-project:latest --file Dockerfile . 
       echo images are
