@@ -23,58 +23,16 @@ steps:
         command: |
           echo "Handling the failure"
         timeoutInSeconds: 400
-  # Install Java 17
   - type: Command
-    name: "Install local JDK17"
-    timeoutInSeconds: 10000
+    name: "Generate the image"
+    timeoutInSeconds: 60
     command: |
-      cd ~
-      mkdir InstalledSoftware
-      cd InstalledSoftware
-      wget -q https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
-      tar xf *tar.gz
-      rm *tar.gz
-      ls -l
-      export JAVA_HOME=`echo -n ~/InstalledSoftware/jdk-*`
-      export PATH=$JAVA_HOME/bin:$PATH
-      echo Path is
-      echo $PATH
-      echo JAVA_HOME is
-      echo $JAVA_HOME
-      java -version
-    onFailure:
-      - type: Command
-        timeoutInSeconds: 40
-        command: |
-          echo "Handling Failure"
-          echo "Failure successfully handled"
-        timeoutInSeconds: 400
-        runAs: root
-  - type: Command
-    name: "Confirm Variables and versions"
-    timeoutInSeconds: 10
-    command: |
-      echo PATH is $PATH
-      echo JAVA_HOME is $JAVA_HOME
-      echo APPLICATION_VERSION is $APPLICATION_VERSION
-      echo OCIR_HOST is $OCIR_HOST
-      echo OCIR_STORAGE_NAMEPACE is $OCIR_STORAGE_NAMEPACE
-      echo OCI_PRIMARY_SOURCE_DIR is ${OCI_PRIMARY_SOURCE_DIR}
-      echo This is the Java version, it should be Java 17
-      java -version
-      echo This is the maven version
-      mvn -v 
-    onFailure:
-      - type: Command
-        timeoutInSeconds: 40
-        command: |
-          echo "Handling Failure"
-          echo "Failure successfully handled"
-        timeoutInSeconds: 400
-        runAs: root
-        
-
+      cd ${OCI_PRIMARY_SOURCE_DIR}/oci-devops-project
+      echo Running docker update - Working in `pwd`
+      docker build  --tag oci-devops-project:latest --file Dockerfile . 
+      echo images are
+      docker images 
 outputArtifacts:
-  - name: artifact-name
-    type: artifact-type
-    location: source-location
+  - name: oci_devops_project_image
+    type: DOCKER_IMAGE
+    location: oci-devops-project:latest
