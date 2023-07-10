@@ -25,25 +25,17 @@ steps:
         command: |
           echo "Handling the failure"
         timeoutInSeconds: 400
-  - type: Command
-    name: "Generate the image"
-    timeoutInSeconds: 60
-    command: |
-      cd ${OCI_PRIMARY_SOURCE_DIR}/
-      echo Running docker update - Working in `pwd`
-      docker build  --tag oci-devops-project:latest --file Dockerfile . 
-      echo images are
-      docker images 
-outputArtifacts:
-  - name: oci_devops_project_image
-    type: DOCKER_IMAGE
-    location: oci-devops-project:latest
-  - name: deployment_yaml
-    type: BINARY
-    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-deployment.yaml
-  - name: service_yaml
-    type: BINARY
-    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-service.yaml
-  - name: ingress_yaml
-    type: BINARY
-    location: ${OCI_PRIMARY_SOURCE_DIR}/deployment/artifacts/project-ingress.yaml
+  - type: VulnerabilityAudit
+    name: "Vulnerability Audit Step"
+    configuration:
+      buildType: maven
+      pomFilePath: ${OCI_PRIMARY_SOURCE_DIR}/pom.xml
+      packagesToIgnore:
+        - com.oracle.*
+        - org.apache.logging
+      maxPermissibleCvssV2Score: 6.0
+      maxPermissibleCvssV3Score: 6.0
+    knowledgeBaseId: ocid1.admknowledgebase.oc1.phx.amaaaaaanf25m3qa6puwcopqgjpf2ygsz5nf4cerdeuiosxnfnd6zfl34n2a
+    vulnerabilityAuditCompartmentId: ocid1.compartment.oc1..aaaaaaaayrtdxlkhtj743elimx7mnpdlummsralzxwsk3irgvvhr6pmxbc7q
+    vulnerabilityAuditName: Vuln_Scan_Report
+      
